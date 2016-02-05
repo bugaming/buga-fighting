@@ -3,6 +3,7 @@ using System.Collections;
 
 public class FightBegin : MonoBehaviour {
 	GameObject[] players;
+	int playerCount;
 	// Use this for initialization
 	void Start () {
 		players = GameObject.FindGameObjectsWithTag ("Player");

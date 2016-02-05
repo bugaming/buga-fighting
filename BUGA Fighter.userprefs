@@ -1,9 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CursorControl.cs">
     <Files>
+      <File FileName="Assets\Scripts\CharacterSelect.cs" Line="13" Column="17" />
       <File FileName="Assets\Scripts\GameStart.cs" Line="84" Column="3" />
-      <File FileName="Assets\Scripts\Player.cs" Line="36" Column="1" />
+      <File FileName="Assets\Scripts\Player.cs" Line="33" Column="31" />
+      <File FileName="Assets\Scripts\PlayerPrefsX.cs" Line="10" Column="25" />
+      <File FileName="Assets\Scripts\Respawn.cs" Line="19" Column="24" />
+      <File FileName="Assets\Scripts\CursorControl.cs" Line="7" Column="23" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

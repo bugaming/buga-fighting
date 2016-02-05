@@ -5,6 +5,7 @@ public class Player : MonoBehaviour {
 
 	public float moveSpeed = 8f;
 	public float jumpPower = 250f;
+	public string moveAxis;
 	Rigidbody2D rigid;
 	GameObject player;
 
@@ -25,17 +26,15 @@ public class Player : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag ("Player");
 
 		rigid = player.GetComponent<Rigidbody2D>();
-		if (Input.GetKeyDown (KeyCode.Space)) {
+		if (Input.GetKeyDown (KeyCode.Space))
+		{
 			Jump (jumpPower);
 		}
-		float move = Input.GetAxis ("Horizontal");
+		float move = Input.GetAxis (moveAxis);
 
 		rigid.velocity = new Vector2 (move * moveSpeed, rigid.velocity.y);
 
 		rigid.velocity = new Vector3 (move * moveSpeed, rigid.velocity.y);
-
-		 
-	
 	}
 
 	void Jump (float jForce)
