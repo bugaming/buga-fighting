@@ -17,17 +17,20 @@ public class CursorControl : MonoBehaviour {
 	void Update () {
 		//horizontal movement
 		float hMove = (Input.GetAxisRaw (horizontal)); 
-		this.transform.Translate (Vector2.left * hMove * Time.deltaTime * horiSpeed);
+		this.transform.Translate (Vector2.right * hMove * Time.deltaTime * horiSpeed);
 		//vertical movement
 		float vMove = (Input.GetAxisRaw (vertical)); 
 		this.transform.Translate (Vector2.up * vMove * Time.deltaTime * vertSpeed);
 
 		if (Input.GetButtonDown (submit)) {
-
+			print ("submit pressed");
 		}
-		if (Input.GetButtonDown (back)) {
-
+		if (Input.GetButtonDown(back)) 
+		{
+			Debug.Log ("Back button pressed");
+			Destroy (transform.gameObject);
 		}
+
 
 	
 	}
