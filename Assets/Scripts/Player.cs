@@ -3,9 +3,16 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	public float moveSpeed = 8f;
-	public float jumpPower = 250f;
-	public string moveAxis;
+	public string horizontal;
+	public string vertical;
+	public string fire1;
+	public string fire2;
+	public string fire3;
+	public string jump;
+
+	public float moveSpeed = 4f;
+	public float jumpPower = 500f;
+	public int playerID;
 	Rigidbody2D rigid;
 	GameObject player;
 
@@ -13,8 +20,7 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-
+		this.name = "Player " + (playerID + 1);
 
 	}
 	
@@ -23,18 +29,15 @@ public class Player : MonoBehaviour {
 
 		player = this.gameObject;
 
-		player = GameObject.FindGameObjectWithTag ("Player");
-
 		rigid = player.GetComponent<Rigidbody2D>();
-		if (Input.GetKeyDown (KeyCode.Space))
+
+		if (Input.GetButtonDown (jump))
 		{
 			Jump (jumpPower);
 		}
-		float move = Input.GetAxis (moveAxis);
+		float move = Input.GetAxisRaw (horizontal);
 
 		rigid.velocity = new Vector2 (move * moveSpeed, rigid.velocity.y);
-
-		rigid.velocity = new Vector3 (move * moveSpeed, rigid.velocity.y);
 	}
 
 	void Jump (float jForce)

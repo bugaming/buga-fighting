@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class CharacterSelect : MonoBehaviour {
-	int playerNum = 0;
+	int playerNum = 1;
 	int p2Count = 0;
 	int p3Count = 0;
 	int p4Count = 0;
@@ -12,6 +12,8 @@ public class CharacterSelect : MonoBehaviour {
 	int[] playerSlot = new int[3];
 	public GameObject selector;
 	public GameObject P1_cursor;
+	public GameObject charSelect;
+	public GameObject levelSelect;
 	GameObject P2_cursor;
 	GameObject P3_cursor;
 	GameObject P4_cursor;
@@ -23,6 +25,9 @@ public class CharacterSelect : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		levelSelect = GameObject.FindGameObjectWithTag("LevelCanvas");
+		charSelect = GameObject.FindGameObjectWithTag ("CharCanvas");
+		levelSelect.SetActive (false);
 		//get transform of parent object so cursors are instatiated as child of canvas
 		parent = GameObject.FindGameObjectWithTag ("CharCanvas").transform;
 		//set playerSlot 0 to 1 for player one who is in play by default
@@ -98,7 +103,6 @@ public class CharacterSelect : MonoBehaviour {
 
 		for (int i = 0; i < 3; i++) 
 		{
-			print (playerSlot[i]);
 			if (playerSlot [i] > 0) {
 				switch (i) {
 				case 0:
@@ -148,6 +152,8 @@ public class CharacterSelect : MonoBehaviour {
 				}
 			}
 		}
+		charSelect.SetActive (false);
+		levelSelect.SetActive (true);
 			
 		//save info to transfer to arena scene
 		PlayerPrefs.SetInt ("PlayerAmount", playerNum);

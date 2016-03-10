@@ -45,14 +45,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\PortInfo.cs" />
      <Compile Include="Assets\Scripts\CharacterSelect.cs" />
      <Compile Include="Assets\Scripts\CursorControl.cs" />
      <Compile Include="Assets\Scripts\FightBegin.cs" />
      <Compile Include="Assets\Scripts\GameStart.cs" />
+     <Compile Include="Assets\Scripts\LevelChoice.cs" />
+     <Compile Include="Assets\Scripts\LevelSelect.cs" />
      <Compile Include="Assets\Scripts\NetworkInit.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\PlayerPrefsX.cs" />
+     <Compile Include="Assets\Scripts\PortInfo.cs" />
      <Compile Include="Assets\Scripts\Respawn.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

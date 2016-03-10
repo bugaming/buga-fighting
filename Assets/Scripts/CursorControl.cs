@@ -32,7 +32,7 @@ public class CursorControl : MonoBehaviour {
 				//SendMessageUpwards (choice);
 				Debug.Log ("hit portrait");
 			}
-			print ("submit pressed");
+
 		}
 		if (Input.GetButtonDown(back)) 
 		{
