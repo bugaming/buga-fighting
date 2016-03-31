@@ -9,19 +9,29 @@ public class Respawn : MonoBehaviour {
 	void Start()
 	{
 		PlayerCheck ();
-		rp = GameObject.FindGameObjectWithTag ("RespawnPoint").GetComponent<Transform> ().transform;
+		rp = GameObject.FindGameObjectWithTag ("RespawnPoint").GetComponent<Transform> ();
 	}
+	void Update()
+	{
+		
+	}
+
+
 	void PlayerCheck()
 	{
-		players = GameObject.FindGameObjectsWithTag ("Player");
+		//error because as object is instantiated it is found afterward, making it second slot instead of first
 
+		players = GameObject.FindGameObjectsWithTag ("Player");
 		for (int i = 0; i < players.Length; i++)
 		{
 			foreach (GameObject player in players) 
 			{
 				if (player.GetComponent<Player>().playerID == i)
 				{
-					players [i] = player;
+					if (players[i] != player)
+					{
+						players[i] = player;
+					}
 				}
 			}
 		}
@@ -34,18 +44,45 @@ public class Respawn : MonoBehaviour {
 			{
 			case 0:
 				{
-					Instantiate (players[0], rp.position, Quaternion.identity);
-					Destroy (col.gameObject);
-					PlayerCheck ();
-					break;
+					if (players [0].GetComponent<Player> ().lives != 0) {
+						col.GetComponent<Player> ().lives -= 1;
+						col.transform.position = (rp.position);
+						break;
+					} else
+						col.gameObject.SetActive(false);
+						break;
 				}
 			case 1:
 				{
-					Instantiate (players[1], rp.position, Quaternion.identity);
-					Destroy (col.gameObject);
-					PlayerCheck ();
+					if (players [1].GetComponent<Player> ().lives != 0) {
+						col.GetComponent<Player> ().lives -= 1;
+						col.transform.position = (rp.position);
+						break;
+					} else
+						col.gameObject.SetActive (false);
 					break;
 				}
+			case 2:
+				{
+					if (players [2].GetComponent<Player> ().lives != 0) {
+						col.GetComponent<Player> ().lives -= 1;
+						col.transform.position = (rp.position);
+						break;
+					} else
+						col.gameObject.SetActive (false);
+					break;
+				}
+			case 3:
+				{
+					if (players [3].GetComponent<Player> ().lives != 0) {
+						col.GetComponent<Player> ().lives -= 1;
+						col.transform.position = (rp.position);
+						break;
+					} else
+						col.gameObject.SetActive (false);
+					break;
+				}
+
 			}
 		}
 

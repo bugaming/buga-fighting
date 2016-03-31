@@ -25,6 +25,7 @@ public class CharacterSelect : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		P1_cursor.GetComponent<Image>().color = new Color(0,0,225);
 		levelSelect = GameObject.FindGameObjectWithTag("LevelCanvas");
 		charSelect = GameObject.FindGameObjectWithTag ("CharCanvas");
 		levelSelect.SetActive (false);
@@ -45,6 +46,7 @@ public class CharacterSelect : MonoBehaviour {
 			playerSlot [1] = 2;
 			P2_cursor = Instantiate (selector, new Vector2 (484, 308), Quaternion.identity) as GameObject;
 			P2_cursor.transform.SetParent (parent, false);
+			P2_cursor.GetComponent<Image>().color = new Color(225, 0, 0);
 			//add cursor control script with assignments
 			P2_cursor.GetComponent<CursorControl> ().horizontal = "Horizontal_P2";
 			P2_cursor.GetComponent<CursorControl> ().vertical = "Vertical_P2";
@@ -65,6 +67,7 @@ public class CharacterSelect : MonoBehaviour {
 			playerSlot [2] = 3;
 			P3_cursor = Instantiate (selector, new Vector2 (484, 308), Quaternion.identity) as GameObject;
 			P3_cursor.transform.SetParent (parent, false);
+			P3_cursor.GetComponent<Image>().color = new Color(0, 225, 0);
 			P3_cursor.GetComponent<CursorControl> ().horizontal = "Horizontal_P3";
 			P3_cursor.GetComponent<CursorControl>().vertical = "Vertical_P3";
 			P3_cursor.GetComponent<CursorControl>().submit = "Submit_P3";
@@ -84,6 +87,7 @@ public class CharacterSelect : MonoBehaviour {
 			playerSlot [3] = 4;
 			P4_cursor = Instantiate (selector, new Vector2 (484, 308), Quaternion.identity) as GameObject;
 			P4_cursor.transform.SetParent (parent, false);
+			P4_cursor.GetComponent<Image>().color = new Color(0, 225, 225);
 			P4_cursor.GetComponent<CursorControl> ().horizontal = "Horizontal_P4";
 			P4_cursor.GetComponent<CursorControl>().vertical = "Vertical_P4";
 			P4_cursor.GetComponent<CursorControl>().submit = "Submit_P4";

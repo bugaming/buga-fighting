@@ -7,8 +7,9 @@ public class LevelSelect : MonoBehaviour {
 
 	void Start()
 	{
-		levelName = new string[2];
+		levelName = new string[3];
 		levelName[1] = "Arena";
+		levelName[2] = "jungle";
 	}
 
 	public void GoToGame()

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class FightBegin : MonoBehaviour {
 
+	public int startingLives;
 	public string[] charNames;
 	public GameObject[] spawnPoints;
 	GameObject respawnPoint;
@@ -10,7 +11,9 @@ public class FightBegin : MonoBehaviour {
 	public int playerCount;
 	// Use this for initialization
 	void Start () {
-		//get global variables for number of players and character choices
+
+		//get global variables for number of players and cha
+
 		playerCount = PlayerPrefs.GetInt("PlayerAmount");
 		charNames = PlayerPrefsX.GetStringArray ("Names");
 
@@ -25,12 +28,14 @@ public class FightBegin : MonoBehaviour {
 		{
 			players[i] = Instantiate (Resources.Load (charNames[i]), spawnPoints[i].transform.position, Quaternion.identity) as GameObject;
 			//set controls
+
 			players[i].GetComponent<Player>().horizontal = "Horizontal_P" + (i+1);
 			players[i].GetComponent<Player>().vertical = "Vertical_P" + (i+1);
 			players[i].GetComponent<Player>().fire1 = "Fire1_P" + (i+1);
 			players[i].GetComponent<Player>().fire2 = "Fire2_P" + (i+1);
 			players[i].GetComponent<Player>().fire3 = "Fire3_P" + (i+1);
 			players[i].GetComponent<Player>().jump = "Jump_P" + (i+1);
+			players[i].GetComponent<Player>().lives = startingLives;
 
 			//set player id or player number
 			players[i].GetComponent<Player>().playerID = i;
