@@ -26,7 +26,7 @@ public class FightBegin : MonoBehaviour {
 
 		for (int i = 0; i < playerCount; i++)
 		{
-			players[i] = Instantiate (Resources.Load (charNames[i]), spawnPoints[i].transform.position, Quaternion.identity) as GameObject;
+			players[i] = Instantiate (Resources.Load ("Characters/" + charNames[i]), spawnPoints[i].transform.position, Quaternion.identity) as GameObject;
 			//set controls
 
 			players[i].GetComponent<Player>().horizontal = "Horizontal_P" + (i+1);
@@ -35,6 +35,7 @@ public class FightBegin : MonoBehaviour {
 			players[i].GetComponent<Player>().fire2 = "Fire2_P" + (i+1);
 			players[i].GetComponent<Player>().fire3 = "Fire3_P" + (i+1);
 			players[i].GetComponent<Player>().jump = "Jump_P" + (i+1);
+			players[i].GetComponent<Player>().charName = charNames[i];
 			players[i].GetComponent<Player>().lives = startingLives;
 
 			//set player id or player number

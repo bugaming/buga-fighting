@@ -9,18 +9,18 @@ public class Player : MonoBehaviour {
 	public string fire2;
 	public string fire3;
 	public string jump;
-	public float moveSpeed = 4f;
-	public float jumpPower = 500f;
+	public float moveSpeed = 12f;
+	public float jumpPower = 900f;
 	public int playerID;
 	public float hp;
 	public int maxJumpAmt;
 	public int lives;
 	public float punchTimer;
-	public float move1;
-
 	public bool isAlive;
+	public string charName;
+
 	float groundRadius = 1f;
-	LayerMask whatIsGround;
+	public LayerMask whatIsGround;
 	Transform groundCheck;
 	Transform rp;
 	int jumpCount;
@@ -33,11 +33,13 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		this.GetComponentInChildren<PolygonCollider2D> ().enabled = false;
 		print (lives);
 		hp = 100;
 		whatIsGround = 512;
 		this.name = "Player " + (playerID + 1);
 		rigid = this.GetComponent<Rigidbody2D> ();
+		rigid.mass = 3;
 		anim = this.GetComponent<Animator> ();
 		groundCheck = this.transform.FindChild ("groundCheck").GetComponent<Transform>();
 		player = this.gameObject;
@@ -50,8 +52,6 @@ public class Player : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		
-
 		if (lives < 0) {
 			isAlive = false;
 		} else
@@ -91,15 +91,16 @@ public class Player : MonoBehaviour {
 		float move = Input.GetAxisRaw (horizontal);
 
 		//flip object if changing direction
-		if (Input.GetAxisRaw (horizontal) == -1)
+		if (Input.GetAxisRaw (horizontal) < 0 && !facingRight)
 		{
 			facingRight = true;
-			this.GetComponent<SpriteRenderer>().flipX = (facingRight);
+			Flip ();
+
 		} 
-		else if (Input.GetAxisRaw (horizontal) == 1)
+		else if (Input.GetAxisRaw (horizontal) > 0 && facingRight)
 		{
 			facingRight = false;
-			this.GetComponent<SpriteRenderer>().flipX = (facingRight);
+			Flip ();
 		}
 
 		//set animation states for moving or holding still;
@@ -117,9 +118,13 @@ public class Player : MonoBehaviour {
 		} 
 		else if (Input.GetAxisRaw (vertical) == -1) {
 			anim.SetBool ("Crouching", true);
+			this.GetComponent<PolygonCollider2D> ().enabled = false;
+			transform.FindChild ("CrouchCollider").GetComponent<PolygonCollider2D> ().enabled = true;
 		}
 		else
 		{
+			transform.FindChild ("CrouchCollider").GetComponent<PolygonCollider2D> ().enabled = false;
+			this.GetComponent<PolygonCollider2D> ().enabled = true;
 			anim.SetBool ("UpIsHeld", false);
 			anim.SetBool("Crouching", false);
 		}
@@ -139,6 +144,7 @@ public class Player : MonoBehaviour {
 			}
 		} 
 		else anim.SetFloat ("Punching", 0);
+		punchTimer = 0;
 
 
 
@@ -148,5 +154,56 @@ public class Player : MonoBehaviour {
 	{
 		rigid.AddForce(new Vector2 (moveSpeed, jForce));
 	}
+	void Flip()
+	{
+		Vector2 theScale = this.transform.localScale;
+		theScale.x *= -1;
+		this.transform.localScale = theScale;
 
+	}
+	//shoot if projectile attack is available, this is an animation event
+	void Shoot()
+	{
+		Vector2 origin = this.transform.position;
+		GameObject bullet;
+		if (facingRight)
+		{
+			origin.x -= 1;
+		}
+		else
+			origin.x += 1;
+		bullet = Instantiate (Resources.Load ("Projectiles/" + charName + "_bullet"), origin, Quaternion.identity) as GameObject;
+		if (facingRight)
+		{
+			bullet.GetComponent<Bullet>().speed *= -1;
+		}
+		else 
+			bullet.GetComponent<Bullet>().speed *= 1;
+	}
+	//animation event function to deal damage, in animation event use this format "damage amount,direction value,range of attack,child object name", ex (1,1,2.5,HitUP) NO SPACES
+	//for direction, 1 = right/left, 3 = up, 4 = down, left is actually 2 in the script however in the event it could be either direction, so we will set it to 1
+	//and then figure out the direction in the script using the facingright bool
+	public void Attack(string info)
+	{
+		string[] nstring = info.Split (',');
+		float d = float.Parse (nstring [0]);
+		int dir = int.Parse (nstring [1]);
+		float range = float.Parse (nstring [2]);
+		string hitboxname = nstring [3];
+		if (facingRight == true && dir == 1) {
+			dir = 2;
+		}
+		DealDamage dmgscript = transform.FindChild (hitboxname).GetComponent<DealDamage> ();
+		dmgscript.dmg = d;
+		dmgscript.atkRange = range;
+		dmgscript.direction = dir;
+		dmgscript.doDamage ();
+	}
+
+
+	//take damage
+	public void Damage(float d)
+	{
+		this.hp -= d;
+	}
 }
