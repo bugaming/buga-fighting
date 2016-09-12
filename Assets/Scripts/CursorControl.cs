@@ -14,16 +14,23 @@ public class CursorControl : MonoBehaviour {
 	float horiSpeed = 400f;
 	bool choiceMade;
 	public GameObject[] positions = new GameObject[4];
-	int playerNum;
+	public int playerNum;
+	int mod;
 	// Use this for initialization
 	void Start () {
-		playerNum = (int.Parse (horizontal.Substring((horizontal.Length - 1), 1))) - 1;
+		/*
+		mod = PlayerPrefs.GetInt ("UseKB");
+		if (mod == 1)
+		playerNum = (int.Parse (horizontal.Substring((horizontal.Length - 1), 1)));
+		else if (mod != 1)
+		*/
+		playerNum = (int.Parse (horizontal.Substring((horizontal.Length - 1), 1)));
 		parent = GameObject.FindGameObjectWithTag ("CharCanvas").transform;
 		controller = GameObject.FindGameObjectWithTag ("GameController");
 		positions [0] = GameObject.Find ("p1Pos");
 		positions [1] = GameObject.Find ("p2Pos");
 		positions [2] = GameObject.Find ("p3Pos");
-		positions[3] = GameObject.Find ("p4Pos");
+		positions [3] = GameObject.Find ("p4Pos");
 
 	}
 	
@@ -35,6 +42,7 @@ public class CursorControl : MonoBehaviour {
 		this.transform.Translate (Vector2.right * hMove * Time.deltaTime * horiSpeed);
 		//vertical movement
 		float vMove = (Input.GetAxisRaw (vertical)); 
+		//Debug.Log (vMove);
 		this.transform.Translate (Vector2.up * vMove * Time.deltaTime * vertSpeed);
 
 		if (Input.GetButtonDown (submit)) 
@@ -74,4 +82,5 @@ public class CursorControl : MonoBehaviour {
 			choicePortrait.transform.position = (Vector2.Lerp (choicePortrait.transform.position, positions [playerNum].GetComponent<Transform> ().position, .1f));
 		}
 	}
+
 }

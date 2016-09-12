@@ -9,13 +9,11 @@ public class GameStart : MonoBehaviour {
 	public string connectID;
 	public string serverPassword;
 
+	public Toggle controls;
 	public Text text;
 	public Text dialog;
 	public string input;
-
-
 	public string inputString;
-
 
 	private GameObject inputField;
 
@@ -26,6 +24,8 @@ public class GameStart : MonoBehaviour {
 		inputField = GameObject.FindGameObjectWithTag("UserInput");
 		inputField.SetActive (false);
 		inputField.SetActive(false);
+
+		PlayerPrefs.SetInt ("UseKB", 0);
 
 		//initialize correct menu items
 		foreach (GameObject mainButton in mainButtons) 
@@ -49,8 +49,8 @@ public class GameStart : MonoBehaviour {
 	{
 		return inputString;
 	}
-		
-		
+
+
 	//show multiplayer buttons
 	public void showMultiplayer()
 	{
@@ -104,7 +104,7 @@ public class GameStart : MonoBehaviour {
 		UnityEngine.SceneManagement.SceneManager.LoadScene (1);
 	}
 
-		
+
 
 
 
@@ -134,6 +134,18 @@ public class GameStart : MonoBehaviour {
 
 	//Host game start
 
-
+	//ask player 1 what input they will be using, controller or keyboard, set con as 0 for kb, 1 for controller
+	public void SetControls ()
+	{
+		bool usekb = controls.GetComponent<Toggle> ().isOn;
+		if (usekb == true) {
+			PlayerPrefs.SetInt ("UseKB", 1);
+			print (PlayerPrefs.GetInt("UseKB"));
+		}
+		else if (usekb == false) {
+			PlayerPrefs.SetInt ("UseKB", 0);
+			print (PlayerPrefs.GetInt("UseKB"));
+		}
+	}
 
 }	

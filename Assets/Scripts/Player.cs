@@ -9,23 +9,24 @@ public class Player : MonoBehaviour {
 	public string fire2;
 	public string fire3;
 	public string jump;
+	public string charName;
 	public float moveSpeed = 12f;
 	public float jumpPower = 900f;
-	public int playerID;
 	public float hp;
+	public float punchTimer;
+	public int playerID;
 	public int maxJumpAmt;
 	public int lives;
-	public float punchTimer;
+	public int useController = 0;
 	public bool isAlive;
-	public string charName;
+	public bool grounded = false;
+	public LayerMask whatIsGround;
 
 	float groundRadius = 1f;
-	public LayerMask whatIsGround;
-	Transform groundCheck;
-	Transform rp;
 	int jumpCount;
 	bool facingRight;
-	public bool grounded = false;
+	Transform groundCheck;
+	Transform rp;
 	Rigidbody2D rigid;
 	GameObject player;
 	Animator anim;
@@ -33,25 +34,31 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		this.GetComponentInChildren<PolygonCollider2D> ().enabled = false;
-		print (lives);
+		useController = PlayerPrefs.GetInt ("UseKB");
+		this.GetComponentInChildren<BoxCollider2D> ().enabled = false;;
+		//print (lives);
 		hp = 100;
 		whatIsGround = 512;
-		this.name = "Player " + (playerID + 1);
+		this.name = "Player " + (playerID + useController);
 		rigid = this.GetComponent<Rigidbody2D> ();
 		rigid.mass = 3;
 		anim = this.GetComponent<Animator> ();
 		groundCheck = this.transform.FindChild ("groundCheck").GetComponent<Transform>();
 		player = this.gameObject;
 		rp = GameObject.FindGameObjectWithTag ("RespawnPoint").GetComponent<Transform> ().transform;
-	}
+
+	}//end of start method
+
 	void FixedUpdate()
 	{
 		grounded = Physics2D.OverlapCircle (groundCheck.position, groundRadius, 512);
 		anim.SetBool ("Ground", grounded);
-	}
+	}//end of fixedupdate method
+
 	// Update is called once per frame
 	void Update () {
+
+		//check if player has lives
 		if (lives < 0) {
 			isAlive = false;
 		} else
@@ -63,8 +70,7 @@ public class Player : MonoBehaviour {
 				lives -= 1;
 				player.transform.position = rp.position;
 			} else
-				Destroy(player);
-
+				player.SetActive(false);
 		}
 
 		//if player is grounded and jump button pressed
@@ -74,6 +80,7 @@ public class Player : MonoBehaviour {
 			jumpCount = 2;
 			anim.SetBool ("Ground", false);
 		}
+		//Check jump count and if double jump is available
 		if (Input.GetButtonDown (jump) && jumpCount < maxJumpAmt && grounded == false) 
 		{
 			Jump (jumpPower);
@@ -118,13 +125,13 @@ public class Player : MonoBehaviour {
 		} 
 		else if (Input.GetAxisRaw (vertical) == -1) {
 			anim.SetBool ("Crouching", true);
-			this.GetComponent<PolygonCollider2D> ().enabled = false;
-			transform.FindChild ("CrouchCollider").GetComponent<PolygonCollider2D> ().enabled = true;
+			this.GetComponent<BoxCollider2D> ().enabled = false;
+			transform.FindChild ("CrouchCollider").GetComponent<BoxCollider2D> ().enabled = true;
 		}
 		else
 		{
-			transform.FindChild ("CrouchCollider").GetComponent<PolygonCollider2D> ().enabled = false;
-			this.GetComponent<PolygonCollider2D> ().enabled = true;
+			transform.FindChild ("CrouchCollider").GetComponent<BoxCollider2D> ().enabled = false;
+			this.GetComponent<BoxCollider2D> ().enabled = true;
 			anim.SetBool ("UpIsHeld", false);
 			anim.SetBool("Crouching", false);
 		}
@@ -148,19 +155,22 @@ public class Player : MonoBehaviour {
 
 
 
-	}
+	}//end of Update method
+
 	//functino to jump durrr
 	void Jump (float jForce)
 	{
 		rigid.AddForce(new Vector2 (moveSpeed, jForce));
-	}
+	}//end of jump method
+
 	void Flip()
 	{
 		Vector2 theScale = this.transform.localScale;
 		theScale.x *= -1;
 		this.transform.localScale = theScale;
 
-	}
+	}//end of flip method
+
 	//shoot if projectile attack is available, this is an animation event
 	void Shoot()
 	{
@@ -179,7 +189,8 @@ public class Player : MonoBehaviour {
 		}
 		else 
 			bullet.GetComponent<Bullet>().speed *= 1;
-	}
+	}//end of shoot method
+
 	//animation event function to deal damage, in animation event use this format "damage amount,direction value,range of attack,child object name", ex (1,1,2.5,HitUP) NO SPACES
 	//for direction, 1 = right/left, 3 = up, 4 = down, left is actually 2 in the script however in the event it could be either direction, so we will set it to 1
 	//and then figure out the direction in the script using the facingright bool
@@ -198,12 +209,12 @@ public class Player : MonoBehaviour {
 		dmgscript.atkRange = range;
 		dmgscript.direction = dir;
 		dmgscript.doDamage ();
-	}
+	}//end of attack method
 
 
 	//take damage
 	public void Damage(float d)
 	{
 		this.hp -= d;
-	}
-}
+	}//end of damage method
+}//end of class
